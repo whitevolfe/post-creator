@@ -3,7 +3,15 @@
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
-export async function createPost(prevState: any, formData: FormData) {
+interface ActionState {
+  message: string | null
+  error: string | null
+}
+
+export async function createPost(
+  prevState: ActionState | null,
+  formData: FormData
+): Promise<ActionState> {
   try {
     await prisma.post.create({
       data: {
